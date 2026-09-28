@@ -48,6 +48,26 @@ describe("parseGitHubUrl", () => {
     expect(result.ok).toBe(false);
   });
 
+  it("GH-005: instructs the user to import from the repository root", () => {
+    const result = parseGitHubUrl(
+      "https://github.com/owner/repo/tree/main/path/to/dataset"
+    );
+    expect(result.ok).toBe(false);
+    if (!result.ok) {
+      expect(result.message).toContain("repository root");
+      expect(result.hint).toBe("Import from the repository root: https://github.com/owner/repo");
+    }
+  });
+
+  it("GH-005: rejects a slash-containing ref as ambiguous with a subdirectory, without guessing", () => {
+    const result = parseGitHubUrl("https://github.com/owner/repo/tree/feature/foo");
+    expect(result.ok).toBe(false);
+    if (!result.ok) {
+      expect(result.message).toContain('branch name containing "/"');
+      expect(result.hint).toBe("Import from the repository root: https://github.com/owner/repo");
+    }
+  });
+
   it("GH-001: rejects malformed, non-github, or unsupported URLs", () => {
     const invalidInputs = [
       "",

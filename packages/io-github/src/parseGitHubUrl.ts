@@ -86,9 +86,14 @@ export function parseGitHubUrl(input: string): ParseResult {
         return { ok: false, message: 'GitHub URL is missing the branch or tag after /tree/.' };
       }
       if (segments.length > 4) {
+        // GH-005: subdirectory imports are rejected and the user is sent to the repository root.
+        // A ref containing '/' (e.g. feature/foo) has the same shape as <ref>/<subdir>, so it cannot be
+        // told apart here; the message says so instead of guessing.
         return {
           ok: false,
-          message: 'GitHub URL must point to the repository root or /tree/<ref> (no subdirectory paths).'
+          message:
+            'GitHub URL points below /tree/<ref>/. GraphMD imports from the repository root only, and a branch name containing "/" cannot be told apart from a subdirectory path in this URL.',
+          hint: `Import from the repository root: https://github.com/${owner}/${repo}`
         };
       }
       return {
