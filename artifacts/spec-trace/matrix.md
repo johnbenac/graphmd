@@ -1,6 +1,6 @@
 # Verification Matrix (SPEC.md ↔ tests)
 
-Generated: 2026-01-24T09:42:16.646Z
+Generated: 2026-09-28T01:28:02.742Z
 
 ## GOV-001 — Spec-first changes (testable=false)
 Tests (0):
@@ -425,8 +425,10 @@ Tests (2):
 - apps/web/src/state/__tests__/DatasetContext.unit.test.tsx — "GH-003: imports a dataset snapshot via tree listing + raw fetch"
 
 ## GH-005 — Reject subdirectory URLs
-Tests (1):
+Tests (3):
+- packages/io-github/src/__tests__/parseGitHubUrl.unit.test.ts — "GH-005: instructs the user to import from the repository root"
 - packages/io-github/src/__tests__/parseGitHubUrl.unit.test.ts — "GH-005: rejects /tree/<ref>/<subdir> URLs"
+- packages/io-github/src/__tests__/parseGitHubUrl.unit.test.ts — "GH-005: rejects a slash-containing ref as ambiguous with a subdirectory, without guessing"
 
 ## GH-008 — Public repo import requires no auth
 Tests (1):
